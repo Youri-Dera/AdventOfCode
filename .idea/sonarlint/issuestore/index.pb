@@ -45,3 +45,7 @@ w
 G.idea/sonarlint/issuestore/3/2/32a33f02fe6ddc7926a5a4757acd2b36c3677255,8/e/8e8cfbcc89d792cf192b9c9581960f64d8ad5897
 S
 #.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
+Y
+)src/main/java/adventofcode/day4/Readme.md,0/e/0ee4799b68d97e2797d820eda67fa03ab12e5b8f
+Y
+)src/main/java/adventofcode/day3/Main.java,6/4/6438118f42aac93267856b9ce78f696ae188ab99

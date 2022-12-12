@@ -1,75 +1,80 @@
 package adventofcode.day4;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Main {
     private static final Path PATH = Paths.get("src/main/java/adventofcode/day4/input.txt");
     private static final Logger LOGGER = Logger.getLogger( Main.class.getName() );
     private static final List<String> characterList = new ArrayList<>();
-    private static int first = 0;
-    private static int second = 0;
-    private static int third = 0;
-    private static int fourth = 0;
+    private static final List<String> partialList = new ArrayList<>();
+    private static final List<String> finalList = new ArrayList<>();
+    private static int counterPart1 = 0;
+    private static int counterPart2 = 0;
+
     public static void main(String[] args) {
+
+        doStuff();
+
+    }
+
+    public static void doStuff(){
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(PATH.toString()))) {
-            int counter = 0;
             String baseChar = "";
             String line;
+
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-                if (!line.isEmpty()) {
-                    for (char character : line.toCharArray()) {
-                        if(Character.isDigit(character)){
-                            baseChar += character;
-                        }
-                        else{
-                            characterList.add(baseChar);
-                            baseChar = "";
-                        }
+                for (char character : line.toCharArray()) {
+                    if(Character.isDigit(character)){
+                        baseChar += character;
+                    }else {
+                        partialList.add(baseChar);
+                        baseChar = "";
                     }
-                    System.out.println(characterList);
-                    characterList.clear();
+                }
+                characterList.add(baseChar);
+                baseChar = "";
 
-//                    2-4,6-8
-//                    2-3,4-5
-//                    5-7,7-9
+                finalList.addAll(partialList);
+                finalList.addAll(characterList);
 
-//                    2-8,3-7
-//                    6-6,4-6
+                characterList.clear();
+                partialList.clear();
 
-//                    2-6,4-8
-
-//                    first   =   Integer.parseInt(characterList.get(0).toString());
-//                    second  =   Integer.parseInt(characterList.get(1).toString());
-//                    third   =   Integer.parseInt(characterList.get(2).toString());
-//                    fourth  =   Integer.parseInt(characterList.get(3).toString());
-//
-//                    if(first >= third && first <= fourth){
-//                        if(second >= third && second <= fourth){
-//                            counter += 1;
-//                            //System.out.println(characterList);
-//                            characterList.clear();
-//                        }
-//                    }
-//                    if(third >= first && third <= second){
-//                        if(fourth >= first && fourth <= second){
-//                            counter += 1;
-//                            //System.out.println(characterList);
-//                            characterList.clear();
-//                        }
-//                    }
-//                    characterList.clear();
-
-                } else { LOGGER.info("Check input3.txt for invalid characters."); }
-            } System.out.println("\nAmount of items = " + counter);
-            System.out.println("Test = " + (Integer.parseInt(characterList.get(0).toString()) + Integer.parseInt(characterList.get(0).toString())));
+                assignValuesPartOne(finalList);
+                assignValuesPartTwo(finalList);
+            }
+            LOGGER.info("\nThe amount contained within other pairs = " + counterPart1 + "\n");
+            LOGGER.info("\nThe amount overlapping with other pairs = " + counterPart2);
         } catch (Exception e) { LOGGER.info(e.toString()); }
+    }
+    public static void assignValuesPartOne(List<String> finalList){
+        int first = Integer.parseInt(finalList.get(0).toString());
+        int second = Integer.parseInt(finalList.get(1).toString());
+        int third = Integer.parseInt(finalList.get(2).toString());
+        int fourth = Integer.parseInt(finalList.get(3).toString());
+
+        if(first <= third && second >= fourth
+                || third <= first && fourth >= second){
+            counterPart1 += 1;
+        }
+    }
+    public static void assignValuesPartTwo(List<String> finalList){
+        int first = Integer.parseInt(finalList.get(0).toString());
+        int second = Integer.parseInt(finalList.get(1).toString());
+        int third = Integer.parseInt(finalList.get(2).toString());
+        int fourth = Integer.parseInt(finalList.get(3).toString());
+
+        if(first >= third && first <= fourth
+                || second >= third && second <= fourth
+                || third >= first && third <= second
+                || fourth >= first && fourth <= second){
+            counterPart2 += 1;
+        }
+        finalList.clear();
     }
 }
